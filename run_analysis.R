@@ -15,10 +15,6 @@ run_analysis <- function(){
   testing_label <- read.table("test/y_test.txt")
   table(testing_label)
   testing_subject <- read.table("test/subject_test.txt")
-  ## Joining datasets
-  data_join <- rbind(training_data, testing_data); dim(data_join) #10299, 561
-  label_join <- rbind(training_label, testing_label); dim(label_join) #10299, 1
-  subject_join <- rbind(training_subject, testing_subject); dim(subject_join) #10299, 1
   
   # Extracts only measurements on the mean and standard deviation for each measurement
   dataset_features <- read.table("features.txt", col.names=c("featureId", "featureLabel"))
@@ -36,7 +32,7 @@ run_analysis <- function(){
   names(label) = "activityId"
   activity <- merge(label, dataset_activities, by="activityId")$activityLabel
   
-  # merge data frames of different columns to form one data table
+  # merge data frames from subject, data and activity to create one data table
   data <- cbind(subject, data, activity)
   write.table(data, "merged_tidy_data.txt", row.names = FALSE)
   
